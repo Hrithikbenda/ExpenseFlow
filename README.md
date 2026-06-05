@@ -41,4 +41,4 @@ Backend:
 
 ## Author
 
-Hrithik Kumar
+Hrithik Benda
