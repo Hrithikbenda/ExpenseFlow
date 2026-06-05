@@ -8,12 +8,14 @@ function ExpenseForm({
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
+  const [note, setNote] = useState("");
 
   useEffect(() => {
     if (editingExpense) {
       setAmount(editingExpense.amount);
       setCategory(editingExpense.category);
       setDate(editingExpense.date);
+      setNote(editingExpense.note || "");
     }
   }, [editingExpense]);
 
@@ -21,7 +23,7 @@ function ExpenseForm({
     e.preventDefault();
 
     if (!amount || !category || !date) {
-      alert("Please fill all fields");
+      alert("Please fill all required fields");
       return;
     }
 
@@ -29,6 +31,9 @@ function ExpenseForm({
       amount: Number(amount),
       category,
       date,
+      note,
+      userEmail:
+        localStorage.getItem("userEmail"),
     };
 
     if (editingExpense) {
@@ -43,12 +48,15 @@ function ExpenseForm({
     setAmount("");
     setCategory("");
     setDate("");
+    setNote("");
   };
 
   const handleCancel = () => {
     setAmount("");
     setCategory("");
     setDate("");
+    setNote("");
+
     window.location.reload();
   };
 
@@ -86,9 +94,6 @@ function ExpenseForm({
           p-4
           rounded-xl
           mb-4
-          focus:outline-none
-          focus:ring-2
-          focus:ring-blue-500
         "
       />
 
@@ -105,9 +110,6 @@ function ExpenseForm({
           p-4
           rounded-xl
           mb-4
-          focus:outline-none
-          focus:ring-2
-          focus:ring-blue-500
         "
       >
         <option value="" className="text-black">
@@ -130,7 +132,10 @@ function ExpenseForm({
           📄 Bills
         </option>
 
-        <option value="Entertainment" className="text-black">
+        <option
+          value="Entertainment"
+          className="text-black"
+        >
           🎬 Entertainment
         </option>
 
@@ -152,10 +157,26 @@ function ExpenseForm({
           text-white
           p-4
           rounded-xl
+          mb-4
+        "
+      />
+
+      <textarea
+        placeholder="📝 Expense Note (optional)"
+        value={note}
+        onChange={(e) =>
+          setNote(e.target.value)
+        }
+        rows="3"
+        className="
+          w-full
+          bg-white/10
+          border border-white/20
+          text-white
+          p-4
+          rounded-xl
           mb-6
-          focus:outline-none
-          focus:ring-2
-          focus:ring-blue-500
+          resize-none
         "
       />
 
@@ -173,10 +194,6 @@ function ExpenseForm({
             py-4
             rounded-xl
             font-bold
-            text-lg
-            shadow-lg
-            transition-all
-            duration-300
           "
         >
           {editingExpense

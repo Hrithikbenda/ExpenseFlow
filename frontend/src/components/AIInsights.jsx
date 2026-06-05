@@ -26,11 +26,12 @@ function AIInsights({ expenses }) {
       expense.amount;
   });
 
-  const highestCategory = Object.keys(categoryTotals).reduce(
-    (a, b) =>
-      categoryTotals[a] > categoryTotals[b]
-        ? a
-        : b
+  const highestCategory = Object.keys(
+    categoryTotals
+  ).reduce((a, b) =>
+    categoryTotals[a] > categoryTotals[b]
+      ? a
+      : b
   );
 
   const highestAmount =
@@ -41,30 +42,14 @@ function AIInsights({ expenses }) {
     100
   ).toFixed(1);
 
-  // Spending Score
-  let score = 100 - Math.round(percentage);
+  const potentialSavings = (
+    highestAmount * 0.1
+  ).toFixed(0);
 
-  if (score < 0) score = 0;
+  const yearlySavings = (
+    potentialSavings * 12
+  ).toFixed(0);
 
-  let scoreColor = "text-green-400";
-  let scoreLabel = "Excellent";
-
-  if (score < 80) {
-    scoreColor = "text-yellow-400";
-    scoreLabel = "Good";
-  }
-
-  if (score < 60) {
-    scoreColor = "text-orange-400";
-    scoreLabel = "Moderate";
-  }
-
-  if (score < 40) {
-    scoreColor = "text-red-400";
-    scoreLabel = "Needs Improvement";
-  }
-
-  // Smart Recommendation
   let recommendation =
     "Your spending looks balanced.";
 
@@ -88,6 +73,16 @@ function AIInsights({ expenses }) {
       "Review subscriptions and recurring payments.";
   }
 
+  if (highestCategory === "Entertainment") {
+    recommendation =
+      "Consider setting a monthly entertainment budget.";
+  }
+
+  if (highestCategory === "Health") {
+    recommendation =
+      "Track recurring health expenses to optimize costs.";
+  }
+
   return (
     <div
       className="
@@ -104,6 +99,7 @@ function AIInsights({ expenses }) {
       </h2>
 
       <div className="space-y-4 text-gray-200">
+
         <p>
           💰 Total Spending:
           <span className="font-bold text-white">
@@ -127,19 +123,38 @@ function AIInsights({ expenses }) {
         </p>
 
         <div className="pt-2 border-t border-white/10">
-          <p className="text-lg">
-            🏆 Spending Score:
-            <span
-              className={`font-bold ml-2 ${scoreColor}`}
-            >
-              {score}/100
-            </span>
-          </p>
+  <p className="mb-3">
+    💸 Potential Savings
+  </p>
 
-          <p className={`${scoreColor} text-sm`}>
-            {scoreLabel}
-          </p>
-        </div>
+  <div className="flex gap-10">
+    
+    <div>
+      <p className="text-green-400 font-bold text-2xl">
+        ₹{potentialSavings}
+      </p>
+
+      <p className="text-sm text-gray-300">
+        per month
+      </p>
+    </div>
+
+    <div>
+      <p className="text-green-300 font-bold text-2xl">
+        ₹{yearlySavings}
+      </p>
+
+      <p className="text-sm text-gray-300">
+        per year
+      </p>
+    </div>
+
+  </div>
+
+  <p className="text-gray-300 text-sm mt-3">
+    by reducing {highestCategory} spending by 10%.
+  </p>
+</div>
 
         <div className="pt-2 border-t border-white/10">
           <p>
@@ -150,6 +165,7 @@ function AIInsights({ expenses }) {
             {recommendation}
           </p>
         </div>
+
       </div>
     </div>
   );

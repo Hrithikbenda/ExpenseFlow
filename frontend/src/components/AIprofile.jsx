@@ -1,6 +1,12 @@
 function AIProfile({ expenses }) {
+  const userEmail =
+    localStorage.getItem("userEmail") || "";
+
   const userName =
-    localStorage.getItem("username") ||
+    localStorage.getItem(
+      `username_${userEmail}`
+    ) ||
+    userEmail.split("@")[0] ||
     "User";
 
   const totalSpent = expenses.reduce(
@@ -55,25 +61,8 @@ function AIProfile({ expenses }) {
   }
 
   return (
-    <div
-      className="
-        bg-white/10
-        backdrop-blur-xl
-        border border-white/20
-        rounded-3xl
-        p-6
-        flex
-        items-center
-        gap-6
-        mb-8
-      "
-    >
-      <div
-        className="
-          text-7xl
-          animate-bounce
-        "
-      >
+    <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-6 flex items-center gap-6 mb-8">
+      <div className="text-7xl animate-bounce">
         🤖
       </div>
 
@@ -87,42 +76,15 @@ function AIProfile({ expenses }) {
         </p>
 
         <div className="mt-3 flex gap-3 flex-wrap">
-          <span
-            className="
-              bg-green-500/20
-              text-green-400
-              px-3
-              py-1
-              rounded-full
-              text-sm
-            "
-          >
+          <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm">
             ● AI Active
           </span>
 
-          <span
-            className="
-              bg-blue-500/20
-              text-blue-400
-              px-3
-              py-1
-              rounded-full
-              text-sm
-            "
-          >
+          <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm">
             💰 ₹{totalSpent}
           </span>
 
-          <span
-            className="
-              bg-purple-500/20
-              text-purple-400
-              px-3
-              py-1
-              rounded-full
-              text-sm
-            "
-          >
+          <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">
             📊 {topCategory}
           </span>
         </div>

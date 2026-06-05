@@ -1,31 +1,71 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 
 function Settings() {
+  const navigate = useNavigate();
+
+  const userEmail =
+    localStorage.getItem("userEmail");
+
   const [name, setName] = useState(
-    localStorage.getItem("username") ||
-      "Warner"
+    localStorage.getItem(
+      `username_${userEmail}`
+    ) || ""
   );
 
   const [salary, setSalary] = useState(
-    localStorage.getItem("salary") ||
-      ""
+    localStorage.getItem(
+      `salary_${userEmail}`
+    ) || ""
   );
+  const [budget, setBudget] = useState(
+  localStorage.getItem(
+    `budget_${userEmail}`
+  ) || ""
+);
 
   const saveSettings = () => {
     localStorage.setItem(
-      "username",
+      `username_${userEmail}`,
       name
     );
 
     localStorage.setItem(
-      "salary",
+      `salary_${userEmail}`,
       salary
     );
+    localStorage.setItem(
+  `budget_${userEmail}`,
+  budget
+);
 
     alert(
       "Settings saved successfully 🚀"
     );
+  };
+
+  const logout = () => {
+    const confirmLogout =
+      window.confirm(
+        "Are you sure you want to logout?"
+      );
+
+    if (confirmLogout) {
+      localStorage.removeItem(
+        "loggedInUser"
+      );
+
+      localStorage.removeItem(
+        "userEmail"
+      );
+
+      alert(
+        "Logged out successfully 👋"
+      );
+
+      navigate("/login");
+    }
   };
 
   return (
@@ -49,16 +89,15 @@ function Settings() {
               type="text"
               value={name}
               onChange={(e) =>
-                setName(
-                  e.target.value
-                )
+                setName(e.target.value)
               }
               className="
                 w-full
                 p-4
                 rounded-xl
                 bg-white/10
-                border border-white/20
+                border
+                border-white/20
                 text-white
               "
             />
@@ -69,14 +108,34 @@ function Settings() {
             <label className="block mb-2 text-gray-300">
               💵 Monthly Salary
             </label>
+            <div className="mb-6">
+  <label className="block mb-2 text-gray-300">
+    🎯 Monthly Budget
+  </label>
+
+  <input
+    type="number"
+    value={budget}
+    onChange={(e) =>
+      setBudget(e.target.value)
+    }
+    placeholder="Enter monthly budget"
+    className="
+      w-full
+      p-4
+      rounded-xl
+      bg-white/10
+      border border-white/20
+      text-white
+    "
+  />
+</div>
 
             <input
               type="number"
               value={salary}
               onChange={(e) =>
-                setSalary(
-                  e.target.value
-                )
+                setSalary(e.target.value)
               }
               placeholder="Enter monthly salary"
               className="
@@ -84,7 +143,8 @@ function Settings() {
                 p-4
                 rounded-xl
                 bg-white/10
-                border border-white/20
+                border
+                border-white/20
                 text-white
               "
             />
@@ -112,19 +172,37 @@ function Settings() {
             </p>
           </div>
 
-          <button
-            onClick={saveSettings}
-            className="
-              bg-blue-600
-              hover:bg-blue-700
-              px-6
-              py-3
-              rounded-xl
-              font-bold
-            "
-          >
-            Save Settings
-          </button>
+          <div className="flex gap-4">
+
+            <button
+              onClick={saveSettings}
+              className="
+                bg-blue-600
+                hover:bg-blue-700
+                px-6
+                py-3
+                rounded-xl
+                font-bold
+              "
+            >
+              Save Settings
+            </button>
+
+            <button
+              onClick={logout}
+              className="
+                bg-red-600
+                hover:bg-red-700
+                px-6
+                py-3
+                rounded-xl
+                font-bold
+              "
+            >
+              🚪 Logout
+            </button>
+
+          </div>
 
         </div>
       </div>
