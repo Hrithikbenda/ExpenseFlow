@@ -100,6 +100,9 @@ https://expenseflow-springboot.onrender.com
 
 <img width="1053" height="3630" alt="localhost_5173_analytics" src="https://github.com/user-attachments/assets/5ba1edd7-e6a2-4d72-a4b3-b9e9ab46b7cb" />
 
+###Expenses
+
+<img width="960" height="564" alt="image" src="https://github.com/user-attachments/assets/07361f56-2e00-4f86-b491-b2b49fdfc1b5" />
 
 
 ### settings
